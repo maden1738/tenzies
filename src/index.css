@@ -5,10 +5,9 @@
 body {
        margin: 0;
        background-color: #0b2434;
-       padding: 20px;
        font-family: "Karla", sans-serif;
        height: 100vh;
-       padding: 200px;
+       padding: 10%;
 }
 
 main {
@@ -43,17 +42,6 @@ main {
        margin-bottom: 40px;
 }
 
-.die-face {
-       height: 50px;
-       width: 50px;
-       box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
-       border-radius: 10px;
-       display: flex;
-       justify-content: center;
-       align-items: center;
-       cursor: pointer;
-}
-
 .die-num {
        font-size: 2rem;
 }
@@ -76,4 +64,64 @@ main {
 
 .roll-dice:active {
        box-shadow: inset 5px 5px 10px -3px rgba(0, 0, 0, 0.7);
+}
+
+.dot {
+       width: 10px;
+       height: 10px;
+       border-radius: 50%;
+       background-color: black;
+}
+
+.die-face {
+       height: 55px;
+       width: 55px;
+       box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+       border-radius: 10px;
+       /* display: flex;
+       justify-content: center;
+       align-items: center; */
+       cursor: pointer;
+       padding: 5px;
+}
+
+.die-1 {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+}
+
+.die-2 {
+       display: flex;
+       align-items: center;
+       justify-content: space-around;
+}
+
+.die-3 {
+       display: flex;
+       flex-direction: column;
+       justify-content: space-evenly;
+       align-items: center;
+}
+
+.die-4,
+.die-6 {
+       display: grid;
+       grid-template-columns: 1fr 1fr;
+       align-items: center;
+       justify-items: center;
+}
+
+.die-5 {
+       display: grid;
+       grid-template-columns: 1fr 1fr;
+       align-items: center;
+       justify-items: center;
+       position: relative;
+}
+
+.die-5 :last-child {
+       position: absolute;
+       left: 50%;
+       transform: translateX(-50%);
 }
