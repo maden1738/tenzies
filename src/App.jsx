@@ -6,6 +6,11 @@ import Confetti from "react-confetti";
 export default function App() {
        const [dice, setDice] = React.useState(allNewDice());
        const [tenzies, setTenzies] = React.useState(false);
+       const [time, setTime] = React.useState({
+              startTime: null,
+              endTime: null,
+       });
+       const [totalTime, setTotalTime] = React.useState();
 
        React.useEffect(() => {
               const allHeld = dice.every((die) => die.isHeld);
@@ -14,9 +19,21 @@ export default function App() {
                      (die) => die.value === firstValue
               );
               if (allHeld && allSameValue) {
+                     setTime({ ...time, endTime: new Date() }); // if game is over set the endTime
                      setTenzies(true);
               }
        }, [dice]);
+
+       React.useEffect(() => {
+              if (time.startTime && time.endTime) {
+                     calculateTimeTaken();
+              }
+       }, [time]); // if both startTime and endTime is set, calculate total time
+
+       function calculateTimeTaken() {
+              const timeTaken = time.endTime - time.startTime;
+              setTotalTime(timeTaken / 1000);
+       }
 
        function generateNewDie() {
               return {
@@ -48,6 +65,7 @@ export default function App() {
        }
 
        function holdDice(id) {
+              !time.startTime && setTime({ ...time, startTime: new Date() }); // setting startTime only when first die is hold
               setDice((oldDice) =>
                      oldDice.map((die) => {
                             return die.id === id
@@ -78,6 +96,7 @@ export default function App() {
                      <button className="roll-dice" onClick={rollDice}>
                             {tenzies ? "New Game" : "Roll"}
                      </button>
+                     {tenzies && <p>You completed in {totalTime} seconds</p>}
               </main>
        );
 }
