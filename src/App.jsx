@@ -6,11 +6,15 @@ import Confetti from "react-confetti";
 export default function App() {
        const [dice, setDice] = React.useState(allNewDice());
        const [tenzies, setTenzies] = React.useState(false);
+
        const [time, setTime] = React.useState({
               startTime: null,
               endTime: null,
        });
        const [totalTime, setTotalTime] = React.useState();
+       const [highScore, setHighScore] = React.useState(
+              localStorage.getItem("highScore") || 9999999
+       );
 
        React.useEffect(() => {
               const allHeld = dice.every((die) => die.isHeld);
@@ -29,6 +33,13 @@ export default function App() {
                      calculateTimeTaken();
               }
        }, [time]); // if both startTime and endTime is set, calculate total time
+
+       React.useEffect(() => {
+              if (totalTime < highScore) {
+                     localStorage.setItem("highScore", totalTime);
+                     setHighScore(totalTime);
+              }
+       }, [totalTime]); // check for highscore after totalTime is set
 
        function calculateTimeTaken() {
               const timeTaken = time.endTime - time.startTime;
@@ -96,7 +107,12 @@ export default function App() {
                      <button className="roll-dice" onClick={rollDice}>
                             {tenzies ? "New Game" : "Roll"}
                      </button>
-                     {tenzies && <p>You completed in {totalTime} seconds</p>}
+                     {tenzies && (
+                            <>
+                                   <p>You completed in {totalTime} seconds</p>
+                                   <p>The high score is {highScore} seconds</p>
+                            </>
+                     )}
               </main>
        );
 }
